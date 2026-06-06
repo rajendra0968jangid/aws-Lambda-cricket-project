@@ -1,0 +1,63 @@
+import json
+
+def lambda_handler(event, context):
+
+    api_url = event['data']  # URL passed in the event
+
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>API Integration</title>
+        <style>
+            body {{ font-family: sans-serif; padding: 20px; }}
+            #output {{
+                background: #f4f4f4;
+                padding: 15px;
+                border-radius: 5px;
+                font-family: monospace;
+            }}
+        </style>
+    </head>
+    <body>
+
+        <h1>API Response Data</h1>
+        <div id="output">Loading data...</div>
+
+        <script>
+            async function getApiData() {{
+                const outputDiv = document.getElementById("output");
+                const url = "{api_url}";
+
+                try {{
+                    const response = await fetch(url);
+
+                    if (!response.ok) {{
+                        throw new Error(`HTTP error! Status: ${{response.status}}`);
+                    }}
+
+                    const data = await response.json();
+
+                    outputDiv.innerHTML =
+                        `<strong>Response:</strong><pre>${{JSON.stringify(data, null, 2)}}</pre>`;
+
+                }} catch (error) {{
+                    outputDiv.innerHTML =
+                        `<span style="color:red;">Error: ${{error.message}}</span>`;
+                }}
+            }}
+
+            getApiData();
+        </script>
+
+    </body>
+    </html>
+    """
+
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "text/html"
+        },
+        "body": html
+    }
