@@ -1,59 +1,56 @@
 import json
 
 def lambda_handler(event, context):
+    html = """
+     <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Integration</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #output { background: #f4f4f4; padding: 15px; border-radius: 5px; font-family: monospace; }
+    </style>
+</head>
+<body>
 
-    api_url = event['data']  # URL passed in the event
+    <h1>API Response Data</h1>
+    <!-- Container where the API data will display -->
+    <div id="output">Loading data...</div>
+    
+</body>
+<script>
+    // Create an async function to handle the network request
+    async function getApiData() {
+        const outputDiv = document.getElementById("output");
+        const url = "https://c3dg9m5u80.execute-api.us-east-1.amazonaws.com/default/myfirstfunctionRajendra";
+        
+        try {
+            const response = await fetch(url);
+            
+            // Check if the server returned an error code (like 403 or 502)
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            // Render the targeted key 'j' from your API output into the page
+            outputDiv.innerHTML = `<strong>Response key (j):</strong> ${data.j}`;
+            
+        } catch (error) {
+            // Display clean error feedback if the request fails
+            outputDiv.innerHTML = `<span style="color: red;">Error: ${error.message}</span>`;
+            console.error("Fetch error details:", error);
+        }
+    }
 
-    html = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>API Integration</title>
-        <style>
-            body {{ font-family: sans-serif; padding: 20px; }}
-            #output {{
-                background: #f4f4f4;
-                padding: 15px;
-                border-radius: 5px;
-                font-family: monospace;
-            }}
-        </style>
-    </head>
-    <body>
-
-        <h1>API Response Data</h1>
-        <div id="output">Loading data...</div>
-
-        <script>
-            async function getApiData() {{
-                const outputDiv = document.getElementById("output");
-                const url = "{api_url}";
-
-                try {{
-                    const response = await fetch(url);
-
-                    if (!response.ok) {{
-                        throw new Error(`HTTP error! Status: ${{response.status}}`);
-                    }}
-
-                    const data = await response.json();
-
-                    outputDiv.innerHTML =
-                        `<strong>Response:</strong><pre>${{JSON.stringify(data, null, 2)}}</pre>`;
-
-                }} catch (error) {{
-                    outputDiv.innerHTML =
-                        `<span style="color:red;">Error: ${{error.message}}</span>`;
-                }}
-            }}
-
-            getApiData();
-        </script>
-
-    </body>
-    </html>
-    """
-
+    // Call the function immediately when the script runs
+    getApiData();
+</script>
+</html>"""
+     
     return {
         "statusCode": 200,
         "headers": {
