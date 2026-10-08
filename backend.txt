@@ -3,7 +3,7 @@ import urllib.request
 
 def lambda_handler(event, context):
     # Target external API URL
-    url = "https://api-v1.com/v1/sV3.php?key=10ZC"
+    url = "https://api-v1.com/v1/sV3.php?key=133U"
     
     try:
         # Fetch the data from the external API
