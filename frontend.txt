@@ -24,7 +24,7 @@ def lambda_handler(event, context):
     // Create an async function to handle the network request
     async function getApiData() {
         const outputDiv = document.getElementById("output");
-        const url = "https://c3dg9m5u80.execute-api.us-east-1.amazonaws.com/default/myfirstfunctionRajendra";
+        const url = "https://jj3rylm6wd5b2nsvtfci6cande0vdnwu.lambda-url.us-east-1.on.aws";
         
         try {
             const response = await fetch(url);
@@ -37,7 +37,7 @@ def lambda_handler(event, context):
             const data = await response.json();
             
             // Render the targeted key 'j' from your API output into the page
-            outputDiv.innerHTML = `<strong>Response key (j):</strong> ${data.j}`;
+            outputDiv.innerHTML = `<strong>Response key (k):</strong> ${data.k}`;
             
         } catch (error) {
             // Display clean error feedback if the request fails
