@@ -37,7 +37,7 @@ def lambda_handler(event, context):
             const data = await response.json();
             
             // Render the targeted key 'j' from your API output into the page
-            outputDiv.innerHTML = `<strong>Response key (k):</strong> ${data.k}`;
+            outputDiv.innerHTML = `<strong>Response key (j):</strong> ${data.j}`;
             
         } catch (error) {
             // Display clean error feedback if the request fails
